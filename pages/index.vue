@@ -19,7 +19,7 @@ const serverOptions = ref<ServerOptions>({
 const loadFromServer = () => {
   loading.value = true;
   
-  $fetch( `${config.public.apiUrl}/temperatures-humidities/?pagination[page]=${serverOptions.value.page}&pagination[pageSize]=${serverOptions.value.rowsPerPage}&publicationState=preview&populate[address][populate][0]=country&sort[0]=createdAt:desc`, {
+  $fetch( `${config.public.apiUrl}/temperature-humidities/?pagination[page]=${serverOptions.value.page}&pagination[pageSize]=${serverOptions.value.rowsPerPage}&sort[0]=createdAt:desc`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${auth.token}`,
