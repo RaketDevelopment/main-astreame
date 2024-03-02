@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-charcoal-900 text-[.875rem] leading-[1.5]
+  }
+
+  label {
+    @apply font-medium text-[.75rem] mb-[4px] block
+  }
+
+  button {
+    @apply disabled:bg-charcoal-10 disabled:opacity-50
+  }
+
+  input {
+    @apply disabled:bg-charcoal-10 disabled:opacity-50
+  }
+}
+
+@layer components {
+  .heading {
+    @apply font-bold leading-[1.25] text-charcoal-950
+  }
+
+  .link {
+    @apply text-blue-500 hover:underline
+  }
+
+  .btn-primary {
+    @apply inline-block rounded-[4px] font-bold text-white bg-charcoal-700 hover:bg-charcoal-950 duration-200 transition-all whitespace-nowrap
+  }
+
+  .btn-primary--medium {
+    @apply btn-primary h-[44px] px-[20px] pt-[11px] pb-[12px]
+  }
+}
+
+@layer utilities {
+  .btn-primary--blue {
+    @apply bg-blue-500 hover:bg-blue-700
+  }
+}
