@@ -92,7 +92,7 @@ const bgImage = computed(() => {
     :class="backgroundClass">
     <h2 class="heading font-normal text-white text-[72px] absolute top-[12px] z-10"
       :class="isDaytime ? 'right-[24px]' : 'left-[24px]'">
-      {{ temperature }}°
+      {{ temperature }}°<sup>c</sup>
     </h2>
     <h3 class="heading font-normal text-white text-[36px] absolute bottom-[12px] z-10"
       :class="isDaytime ? 'right-[12px]' : 'left-[12px]'">
