@@ -14,6 +14,8 @@ export default {
     backgroundImage: {
       'day-gradient': 'linear-gradient(90deg, #219FBA 0%, #3A7BD5 100%)',
       'night-gradient': 'linear-gradient(90deg, #536976 0%, #292E49 100%)',
+      'red-gradient': 'linear-gradient(90deg, #FF243D 0%, #BD0016 100%)',
+      'green-gradient': 'linear-gradient(90deg, #55B70A 0%, #2B5C05 100%)'
     },
     colors: {
       white: "#FFFFFF",

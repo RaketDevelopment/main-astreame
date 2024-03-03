@@ -67,6 +67,9 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
       <div class="md:w-1/2">
         <TempHumiCard />
       </div>
+      <div class="md:w-1/2">
+        <StatusCard />
+      </div>
       <div class="w-full">
         <div
           v-if="items && items.length > 0"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { getDatabase, ref as firebaseRef, get } from 'firebase/database';
+import { ref as firebaseRef, get } from 'firebase/database';
 import { useNuxtApp } from '#app';
 import dayImageSrc from '../assets/images/temp-humi-day-card-image.png';
 import nightImageSrc from '../assets/images/temp-humi-night-card-image.png';
