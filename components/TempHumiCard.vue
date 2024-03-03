@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { ref as firebaseRef, get } from 'firebase/database';
-import { useNuxtApp } from '#app';
+import { ref as dbRef, onValue, DataSnapshot } from 'firebase/database';
 import dayImageSrc from '../assets/images/temp-humi-day-card-image.png';
 import nightImageSrc from '../assets/images/temp-humi-night-card-image.png';
 
@@ -17,43 +16,16 @@ onMounted(async () => {
   const nuxtApp = useNuxtApp();
   const database = nuxtApp.$firebaseDatabase; // Get the database instance provided in your plugin
 
-  const tempRef = firebaseRef(database, 'currentTemperature'); // Create a reference to the 'currentTemperature' path
-  const humiRef = firebaseRef(database, 'currentHumidity'); // Create a reference to the 'currentTemperature' path
+  const tempRef = dbRef(database, 'currentTemperature'); // Create a reference to the 'currentTemperature' path
+  const humiRef = dbRef(database, 'currentHumidity'); // Create a reference to the 'currentTemperature' path
 
-  try {
-    const snapshot = await get(tempRef);
-    if (snapshot.exists()) {
-      temperature.value = snapshot.val(); // Assign the fetched value to the temperature ref
-    } else {
-      console.log('No temperature data available');
-    }
-  } catch (error) {
-    console.error('Error fetching temperature data:', error);
-  }
+  onValue(tempRef, (snapshot: DataSnapshot) => {
+    temperature.value = snapshot.val();
+  });
 
-  try {
-    const snapshot = await get(humiRef);
-    if (snapshot.exists()) {
-      humidity.value = snapshot.val(); // Assign the fetched value to the humidity ref
-    } else {
-      console.log('No humidity data available');
-    }
-  } catch (error) {
-    console.error('Error fetching humidity data:', error);
-  }
-
-  try {
-    const response = await fetch('https://ipapi.co/json/');
-    if (response.ok) {
-      const data = await response.json();
-      city.value = data.city;
-      country.value = data.country_name;
-    } else {
-      console.error('Failed to fetch location data');
-    }
-  } catch (error) {
-    console.error('Error fetching location data:', error);
-  }
+  onValue(humiRef, (snapshot: DataSnapshot) => {
+    humidity.value = snapshot.val();
+  });
 
   try {
     const result: any = await $fetch('https://ipapi.co/json/', {
