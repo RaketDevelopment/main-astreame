@@ -70,6 +70,9 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
       <div class="w-full md:w-1/2">
         <StatusCard />
       </div>
+      <div>
+        <ManualOverride />
+      </div>
       <div class="w-full">
         <div
           v-if="items && items.length > 0"

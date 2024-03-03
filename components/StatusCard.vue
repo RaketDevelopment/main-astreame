@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref as dbRef, onValue, DataSnapshot } from 'firebase/database';
+import { ref as dbRef, onValue, DataSnapshot, off } from 'firebase/database';
 import warningImgSrc from '~/assets/images/icon-warning-white.png';
 import heartImgSrc from '~/assets/images/icon-good-white.png';
 
@@ -9,6 +9,8 @@ const database = nuxtApp.$firebaseDatabase;
 
 const message = ref<string>('');
 const isCritical = ref<boolean>(false);
+
+const sensorRefs = ref<any[]>([]);
 
 interface SensorData {
   currentHumidity: number;
@@ -61,14 +63,23 @@ const updateMessage = (): void  => {
 }
 
 onMounted(() => {
+  sensorRefs.value = [];
   const sensorPaths: string[] = ['currentTemperature', 'currentHumidity', 'sensorBelowStatus', 'sensorAboveStatus', 'relayStatus'];
   sensorPaths.forEach((path) => {
     const sensorRef = dbRef(database, path);
+    sensorRefs.value.push(sensorRef);
     onValue(sensorRef, (snapshot: DataSnapshot) => {
       state.value[path] = snapshot.val() as SensorData;
       // Assuming all sensor data are stored in the same structure
       updateMessage();
     });
+  });
+});
+
+onUnmounted(() => {
+  // Clean up the listeners when the component is destroyed
+  sensorRefs.value.forEach((sensorRef: any) => {
+    off(sensorRef);
   });
 });
 </script>

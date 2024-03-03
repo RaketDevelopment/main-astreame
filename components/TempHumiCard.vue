@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { ref as dbRef, onValue, DataSnapshot } from 'firebase/database';
+import { ref as dbRef, onValue, DataSnapshot, off } from 'firebase/database';
 import dayImageSrc from '../assets/images/temp-humi-day-card-image.png';
 import nightImageSrc from '../assets/images/temp-humi-night-card-image.png';
 
 const temperature = ref(null); // This ref will hold the temperature value
 const humidity = ref(null); // This ref will hold the temperature value
 
+const tempRef = ref();
+const humiRef = ref();
 const city = ref('Manila');
 const country = ref('Philippines');
 
@@ -16,14 +18,14 @@ onMounted(async () => {
   const nuxtApp = useNuxtApp();
   const database = nuxtApp.$firebaseDatabase; // Get the database instance provided in your plugin
 
-  const tempRef = dbRef(database, 'currentTemperature'); // Create a reference to the 'currentTemperature' path
-  const humiRef = dbRef(database, 'currentHumidity'); // Create a reference to the 'currentTemperature' path
+  tempRef.value = dbRef(database, 'currentTemperature'); // Create a reference to the 'currentTemperature' path
+  humiRef.value = dbRef(database, 'currentHumidity'); // Create a reference to the 'currentTemperature' path
 
-  onValue(tempRef, (snapshot: DataSnapshot) => {
+  onValue(tempRef.value, (snapshot: DataSnapshot) => {
     temperature.value = snapshot.val();
   });
 
-  onValue(humiRef, (snapshot: DataSnapshot) => {
+  onValue(humiRef.value, (snapshot: DataSnapshot) => {
     humidity.value = snapshot.val();
   });
 
@@ -44,6 +46,12 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching location data:', error);
   }
+});
+
+onUnmounted(() => {
+  // Clean up the listeners when the component is destroyed
+  off(tempRef.value);
+  off(humiRef.value);
 });
 
 const currentHour = new Date().getHours();
