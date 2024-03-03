@@ -64,10 +64,10 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 <template>
   <div class="p-[24px] max-w-[1140px] mx-auto">
     <div class="w-full flex flex-wrap gap-[24px]">
-      <div class="md:w-1/2">
+      <div class="w-full md:w-1/2">
         <TempHumiCard />
       </div>
-      <div class="md:w-1/2">
+      <div class="w-full md:w-1/2">
         <StatusCard />
       </div>
       <div class="w-full">
