@@ -63,14 +63,14 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 
 <template>
   <div class="p-[24px] max-w-[1140px] mx-auto">
-    <div class="w-full flex flex-wrap gap-[24px]">
-      <div class="w-full md:w-1/2">
+    <div class="w-full flex flex-wrap">
+      <div class="w-full md:w-[calc(50%-12px)] md:pr-[12px]">
         <TempHumiCard />
       </div>
-      <div class="w-full md:w-1/2">
+      <div class="w-full md:w-[calc(50%-12px)] md:pl-[12px]">
         <StatusCard />
       </div>
-      <div>
+      <div class="w-full mt-[24px]">
         <ManualOverride />
       </div>
       <div class="w-full">
