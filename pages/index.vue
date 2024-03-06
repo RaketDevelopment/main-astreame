@@ -71,6 +71,9 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         <StatusCard />
       </div>
       <div class="w-full mt-[24px]">
+        <UpdateThresholds />
+      </div>
+      <div class="w-full mt-[24px]">
         <ManualOverride />
       </div>
       <div class="w-full">
