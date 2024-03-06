@@ -6,6 +6,7 @@ const humidityThreshold = ref();
 
 const temperatureThresholdRef = ref();
 const humidityThresholdRef = ref();
+const sensorRestartRef = ref();
 
 // Initialize Firebase Database
 const nuxtApp = useNuxtApp();
@@ -23,6 +24,7 @@ onMounted(() => {
   // References to Firebase paths
   temperatureThresholdRef.value = dbRef(database, 'temperatureThreshold');
   humidityThresholdRef.value = dbRef(database, 'humidityThreshold');
+  sensorRestartRef.value = dbRef(database, 'sensorRestart');
 
   onValue(temperatureThresholdRef.value, (snapshot) => {
     if (snapshot.exists()) {
@@ -39,10 +41,12 @@ onMounted(() => {
 
 const handleUpdateTemperatureThreshold = () => {
   updateFirebase('temperatureThreshold', temperatureThreshold.value);
+  updateFirebase('sensorRestart', true);
 }
 
 const handleUpdateHumidityThreshold = () => {
   updateFirebase('humidityThreshold', temperatureThreshold.value);
+  updateFirebase('sensorRestart', true);
 }
 </script>
 
