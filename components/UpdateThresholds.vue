@@ -40,12 +40,12 @@ onMounted(() => {
 });
 
 const handleUpdateTemperatureThreshold = () => {
-  updateFirebase('temperatureThreshold', temperatureThreshold.value);
+  updateFirebase('temperatureThreshold', Number(temperatureThreshold.value));
   updateFirebase('sensorRestart', true);
 }
 
 const handleUpdateHumidityThreshold = () => {
-  updateFirebase('humidityThreshold', humidityThreshold.value);
+  updateFirebase('humidityThreshold', Number(humidityThreshold.value));
   updateFirebase('sensorRestart', true);
 }
 </script>
