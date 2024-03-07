@@ -14,7 +14,7 @@ const database = nuxtApp.$firebaseDatabase;
 
 
 // Function to update Firebase
-const updateFirebase = (path: string, value: boolean) => {
+const updateFirebase = (path: string, value: any) => {
   const statusRef = dbRef(database, path);
   set(statusRef, value);
 };
@@ -45,7 +45,7 @@ const handleUpdateTemperatureThreshold = () => {
 }
 
 const handleUpdateHumidityThreshold = () => {
-  updateFirebase('humidityThreshold', temperatureThreshold.value);
+  updateFirebase('humidityThreshold', humidityThreshold.value);
   updateFirebase('sensorRestart', true);
 }
 </script>
