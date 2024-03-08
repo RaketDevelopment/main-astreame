@@ -53,7 +53,7 @@ const updateMessage = (): void  => {
   } else if ((state.value.currentTemperature && state.value.currentTemperature >= temperatureThreshold.value) && !state.value.sensorBelowStatus) {
     message.value = 'Temperature is high, pumping will start';
     isCritical.value = true;
-  } else if ((state.value.currentHumidity && state.value.currentHumidity >= humidityThreshold.value) && (state.value.currentTemperature && state.value.currentTemperature < temperatureThreshold.value) && state.value.sensorBelowStatus) {
+  } else if ((state.value.currentHumidity && state.value.currentHumidity >= humidityThreshold.value) && (state.value.currentTemperature && state.value.currentTemperature < temperatureThreshold.value) && state.value.sensorBelowStatus && state.value.sensorAboveStatus) {
     message.value = 'Humidity/Temperature conditions are met, pumping has stopped';
     isCritical.value = false;
   } else if ((state.value.currentHumidity && state.value.currentHumidity >= humidityThreshold.value) && (state.value.currentTemperature && state.value.currentTemperature < temperatureThreshold.value) && !state.value.sensorBelowStatus) {
