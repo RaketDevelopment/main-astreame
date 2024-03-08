@@ -23,6 +23,7 @@ interface SensorData {
   currentTemperature: number;
   sensorBelowStatus: boolean;
   sensorAboveStatus: boolean;
+  relayStatus: boolean;
 }
 
 // Initialize a reactive state object
@@ -31,11 +32,13 @@ const state = ref<{
     currentHumidity: number | null,
     sensorAboveStatus: boolean | null,
     sensorBelowStatus: boolean | null,
+    relayStatus: boolean | null,
 }>({
     currentTemperature: null,
     currentHumidity: null,
     sensorAboveStatus: null,
     sensorBelowStatus: null,
+    relayStatus: null,
 });
 
 const backgroundClass = computed(() => {
@@ -47,23 +50,31 @@ const statusIconImage = computed(() => {
 });
 
 const updateMessage = (): void  => {
-  if ((state.value.currentHumidity && state.value.currentHumidity < humidityThreshold.value) && !state.value.sensorBelowStatus) {
-    message.value = 'Humidity is on low levels, pumping will start';
-    isCritical.value = true;
-  } else if ((state.value.currentTemperature && state.value.currentTemperature >= temperatureThreshold.value) && !state.value.sensorBelowStatus) {
-    message.value = 'Temperature is high, pumping will start';
-    isCritical.value = true;
-  } else if ((state.value.currentHumidity && state.value.currentHumidity >= humidityThreshold.value) && (state.value.currentTemperature && state.value.currentTemperature < temperatureThreshold.value) && state.value.sensorBelowStatus && state.value.sensorAboveStatus) {
-    message.value = 'Humidity/Temperature conditions are met, pumping has stopped';
-    isCritical.value = false;
-  } else if ((state.value.currentHumidity && state.value.currentHumidity >= humidityThreshold.value) && (state.value.currentTemperature && state.value.currentTemperature < temperatureThreshold.value) && !state.value.sensorBelowStatus) {
+  /**
+   * 1
+   * 2
+   */
+
+  if (!state.value.sensorBelowStatus && !state.value.sensorAboveStatus && state.value.relayStatus) {
     message.value = 'Water level is lower than threshold, pumping will start';
     isCritical.value = true;
-  } else if ((state.value.currentHumidity && state.value.currentHumidity >= humidityThreshold.value) && (state.value.currentTemperature && state.value.currentTemperature < temperatureThreshold.value) && state.value.sensorAboveStatus) {
+  } else if (state.value.sensorBelowStatus && !state.value.sensorAboveStatus && state.value.relayStatus) {
+    message.value = 'Currently pumping';
+    isCritical.value = true;
+  } else if (state.value.sensorBelowStatus && state.value.sensorAboveStatus && !state.value.relayStatus) {
     message.value = 'Water level conditions are met, pumping has stopped';
     isCritical.value = false;
-  } else {
-    message.value = ''; // Default message or handle other cases as needed
+  } else if ((state.value.currentTemperature && state.value.currentTemperature >= temperatureThreshold.value) && state.value.sensorBelowStatus && !state.value.sensorAboveStatus && state.value.relayStatus) {
+    message.value = 'Temperature is high, pumping will start';
+    isCritical.value = true;
+  } else if ((state.value.currentHumidity && state.value.currentHumidity < humidityThreshold.value) && state.value.sensorBelowStatus && !state.value.sensorAboveStatus && state.value.relayStatus) {
+    message.value = 'Humidity is on low levels, pumping will start';
+    isCritical.value = true;
+  } else if ((state.value.currentTemperature && state.value.currentTemperature >= temperatureThreshold.value) && (state.value.currentHumidity && state.value.currentHumidity < humidityThreshold.value) && state.value.sensorBelowStatus && !state.value.sensorAboveStatus && state.value.relayStatus) {
+    message.value = 'Humidity is on low levels and temperature is high, pumping will start';
+    isCritical.value = true;
+  } else if ((state.value.currentTemperature && state.value.currentTemperature < temperatureThreshold.value) && (state.value.currentHumidity && state.value.currentHumidity >= humidityThreshold.value) && state.value.sensorBelowStatus && !state.value.relayStatus) {
+    message.value = 'All condition are met.';
     isCritical.value = false;
   }
 }
