@@ -1,0 +1,29 @@
+name: Deploy Astreame IoT Dashboard
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Server
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@104.248.148.196 << EOF
+            cd /var/www/astreame/html
+            git pull origin master
+            npm install
+            npm run build
+            pm2 restart main-astreame
+          EOF
