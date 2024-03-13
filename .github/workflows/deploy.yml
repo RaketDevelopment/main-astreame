@@ -26,6 +26,9 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@104.248.148.196 << EOF
+            export PATH="$PATH:~/.nvm/versions/node/v20.11.1/bin"
+            source ~/.nvm/nvm.sh
+            source ~/.nvm/versions/node/v20.11.1/bin/pm2
             cd /var/www/astreame/html
             git pull origin master
             npm install
