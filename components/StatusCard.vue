@@ -50,11 +50,6 @@ const statusIconImage = computed(() => {
 });
 
 const updateMessage = (): void  => {
-  /**
-   * 1
-   * 2
-   */
-
   if (state.value.sensorAboveStatus && !state.value.relayStatus) {
     message.value = 'Water level is at max ';
     isCritical.value = false;
